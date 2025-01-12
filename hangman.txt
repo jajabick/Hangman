@@ -1,0 +1,53 @@
+def main():
+    import random
+    game_over = False
+    guessed_letters = set()
+    incorrect_guesses = set()
+    words = ["python", "mziuri", "person"]
+    remaining_attempts = 8
+    def select_word(words):
+        return random.choice(words)
+    def display_word(word, guessed_letters):
+        result = ""
+        for letter in word:
+            if letter in guessed_letters:
+                result += letter
+            else:
+                result += "_"
+        return result
+    def get_user_guess(guessed_letters,incorrect_guesses, word):
+        while True:
+            letter = input("please input a letter: ").lower()
+            if len(letter) > 1 or str(letter) != letter:
+                print("the input does not meet requirements try again:")
+                continue
+            if letter in guessed_letters or letter in incorrect_guesses:
+                print("the letter has already been input please try other letter"    )
+                continue
+            if letter in word:
+                guessed_letters.add(letter)
+                print(f"you got the letter right '{letter}' is in the word")
+            else:
+                incorrect_guesses.add(letter)
+                print(f"you got the letter wrong '{letter}' is not in the word")
+            print("current word: " + display_word(word, guessed_letters))    
+    
+            return  letter
+    def update_game_state(guessed_letters, incorrect_guesses, previous_guessed_letters, previous_incorrect_guesses, remaining_attempts):
+        
+        if len(guessed_letters) > len(previous_guessed_letters) or len(incorrect_guesses) > len(previous_incorrect_guesses):
+            
+            remaining_attempts -= 1
+        
+        return remaining_attempts
+        
+    def check_win(guessed_letters, word):
+       return set(word) == guessed_letters
+       
+       
+    def check_game_over(remaining_attempts):
+        if remaining_attempts == 0:
+            return True
+        else:
+            return False
+    
